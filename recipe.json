@@ -1,0 +1,47 @@
+{
+	"jobs": [
+		{
+			"name": "00-split-target-bam",
+			"script": "./scripts/split-target-bam.sh",
+			"options": {
+			}
+		},
+		{
+			"name": "01-create-realigner-target",
+			"script": "./scripts/create-realigner-target.sh",
+			"options": {
+				"-hold_jid": "$$PREVIOUS_JOB_ID",
+				"-t": "1:31"
+			}
+		},
+		{
+			"name": "02-indel-realignment",
+			"script": "./scripts/indel-realigner.sh",
+			"options": {
+				"-hold_jid": "$$PREVIOUS_JOB_ID",
+				"-t": "1:31"
+			}
+		},
+		{
+			"name": "03-merge-realigned-bams",
+			"script": "./scripts/merge-realigned-bams.sh",
+			"options": {
+				"-hold_jid": "$$PREVIOUS_JOB_ID"
+			}
+		},
+		{
+			"name": "04-create-recal-table",
+			"script": "./scripts/create-recal-table.sh",
+			"options": {
+				"-hold_jid": "$$PREVIOUS_JOB_ID"
+			}
+		},
+		{
+			"name": "05-print-reads-recalibration",
+			"script": "./scripts/print-reads-recalibration.sh",
+			"options": {
+				"-hold_jid": "$$PREVIOUS_JOB_ID"
+			}
+		}
+	]
+}
